@@ -3,6 +3,66 @@
            https://api.github.com/users/<your name>
 */
 
+
+axios.get('https://api.github.com/users/jscamacho')
+.then(data => {
+  console.log('Major Success!', data);
+  const cards = document.querySelector('.cards');
+  cards.appendChild(createCard(data.data));
+})
+.catch(err => {
+  console.log('Major Error: ', err);
+})
+
+const newCard = document.querySelector('.cards');
+
+function createCard(user){
+ 
+  const card = document.createElement('div');
+  const userImage = document.createElement('img');
+  const cardInfo = document.createElement('div');
+  const name = document.createElement('h3');
+  const userName = document.createElement('p');
+  const location = document.createElement('p');
+  const profile = document.createElement('p');
+  const profileURL = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+
+  card.classList.add('card');
+  name.classList.add('name');
+  userName.classList.add('username');
+  userName.classList.add('username');
+
+ 
+  card.appendChild(userImage);
+  card.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(userName);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  profile.appendChild(profileURL);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);
+  cardInfo.appendChild(bio);
+
+ 
+  userImage.src = user.avatar_url;
+  name.textContent = user.name;
+  userName.textContent = user.login;
+  location.textContent = `Location ${user.location}`;
+  profile.textContent = 'Profile:';
+  profileURL.href = user.html_url;
+  followers.textContent = `Followers: ${user.followers}`;
+  following.textContent = `Following: ${user.following}`;
+  bio.textContent = `Bio: ${user.bio}`;
+
+  return card;
+}
+
+
+
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -25,6 +85,11 @@
 */
 
 const followersArray = [];
+
+const followers = followersArray.map(data => {
+  let cards = document.querySelector('.cards');
+  cards.appendChild(createCard(data))
+})
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
